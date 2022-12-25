@@ -1,23 +1,30 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import STUDENTS from "./MOCK_DATA.json"
 
 function App() {
+  const [searchWord, setSearchWord] = useState("")
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input type="text" 
+      placeholder="search..." 
+      onChange={(e) => setSearchWord(e.target.value)}
+      />
+
+      {STUDENTS.filter((val) => {
+        if (searchWord === "") {
+          return ""
+        } else if (val.first_name.toLowerCase().includes(searchWord.toLowerCase())) {
+          return val
+        }
+      }
+      ).map((val, key) => {
+        return (
+        <div key={key}>
+          <p>{val.first_name}</p>
+        </div>)
+      })}
     </div>
   );
 }
